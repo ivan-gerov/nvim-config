@@ -18,12 +18,16 @@ return {
     },
   },
   config = function()
+    local actions = require('telescope.actions')
     local opts = {
       defaults = {
         mappings = {
           i = {
             ['<C-u>'] = false,
             ['<C-d>'] = false,
+            ['<C-k>'] = actions.move_selection_previous,
+            ['<C-j>'] = actions.move_selection_next,
+            ['<C-q>'] = actions.send_selected_to_qflist + actions.open_qflist,
           },
           n = {
             ['<C-c>'] = require('telescope.actions').close,

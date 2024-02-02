@@ -56,5 +56,14 @@ return {
         end, { desc = 'Neoformat', buffer = true })
       end,
     })
+    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+      group = augroup,
+      pattern = {'*.py'},
+      callback = function()
+        vim.keymap.set({ 'n' }, '<leader>=', function()
+          vim.cmd 'Neoformat black'
+        end, { desc = 'Neoformat', buffer = true })
+      end,
+    })
   end,
 }

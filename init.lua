@@ -20,15 +20,21 @@ vim.opt.rtp:prepend(lazypath)
 require 'config.options'
 require 'config.keymaps'
 require 'config.autocmds'
-require('lazy').setup('plugins',{
+require('lazy').setup({ { import = 'plugins' }, { import = 'plugins.lsp' } }, {
   defaults = {
     lazy = false,
     version = false,
   },
   install = {
-    colorscheme = {'catppuccin'},
+    colorscheme = { 'catppuccin' },
   },
-  checker = { enabled = true },
+  checker = {   -- automatically check for plugin updates
+    enabled = false,
+    concurrency = nil, ---@type number? set to 1 to check for updates very slowly
+    notify = true, -- get a notification when new updates are found
+    frequency = 3600, -- check for updates every hour
+    check_pinned = false, -- check for pinned packages that can't be updated
+  },
   performance = {
     rtp = {
       -- disable some rtp plugins
@@ -42,7 +48,10 @@ require('lazy').setup('plugins',{
         'tutor',
         'zipPlugin',
       },
-     },
-   }
-}, {})
+    },
+  },
+})
+
+vim.cmd 'colorscheme jellybeans-nvim'
+
 -- vim: ts=2 sts=2 sw=2 et

@@ -1,0 +1,15 @@
+{
+	"ppbreakpoint": {
+		"prefix": "ppbreakpoint",
+		"body": [
+			"from pprint import pprint; breakpoint()",
+			"pass"
+		]
+	},
+	"ipdb": {
+		"prefix": "ipbd",
+		"body": [
+			"import ipdb; ipdb.set_trace()",
+		]
+	}
+}

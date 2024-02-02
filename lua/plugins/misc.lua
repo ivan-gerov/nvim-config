@@ -2,9 +2,36 @@ return {
 
   { 'digitaltoad/vim-pug' },
   {
-    'lewis6991/satellite.nvim',
-    config = function(_, opts)
-      require('satellite').setup(opts)
+    'dstein64/nvim-scrollview',
+    event = 'VeryLazy',
+    config = function()
+      local scrollview = require 'scrollview'
+      local scrollview_gitsigns = require 'scrollview.contrib.gitsigns'
+
+      scrollview.setup {
+        winblend = 50,
+        signs_on_startup = {
+          'conflicts',
+          -- "cursor",
+          'diagnostics',
+          'folds',
+          'loclist',
+          'marks',
+          'quickfix',
+          'search',
+          'spell',
+          -- "textwidth",
+          -- "trail",
+        },
+      }
+
+      scrollview_gitsigns.setup {
+        add_priority = 100,
+        change_priority = 100,
+        delete_priority = 100,
+      }
+
+      vim.api.nvim_set_hl(0, 'ScrollViewHover', { link = 'Search' })
     end,
   },
   {
@@ -111,6 +138,7 @@ return {
             color = { fg = '#ff9e64' },
           },
         },
+        lualine_c = { { 'filename', path = 1 } },
       }
       require('lualine').setup(opts)
     end,
@@ -134,15 +162,7 @@ return {
   },
 
   -- "gc" to comment visual regions/lines
-  {
-    'numToStr/Comment.nvim',
-    config = function()
-      local opts = {
-        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
-      }
-      require('Comment').setup(opts)
-    end,
-  },
+  { 'numToStr/Comment.nvim', opts = {} },
   {
     'declancm/maximize.nvim',
     opts = { default_keymaps = false },
