@@ -28,13 +28,14 @@ require('lazy').setup({ { import = 'plugins' }, { import = 'plugins.lsp' } }, {
   install = {
     colorscheme = { 'catppuccin' },
   },
-  checker = {   -- automatically check for plugin updates
+  checker = { -- automatically check for plugin updates
     enabled = false,
     concurrency = nil, ---@type number? set to 1 to check for updates very slowly
     notify = true, -- get a notification when new updates are found
     frequency = 3600, -- check for updates every hour
     check_pinned = false, -- check for pinned packages that can't be updated
   },
+  change_detection = { enabled = false },
   performance = {
     rtp = {
       -- disable some rtp plugins
