@@ -20,15 +20,15 @@ return {
 
     local augroup = vim.api.nvim_create_augroup('fmt', { clear = true })
     local prettierd_filetypes = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.css', '*.scss', '*.html' }
-    vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
-      group = augroup,
-      pattern = prettierd_filetypes,
-      callback = function()
-        if auto_format_enabled then
-          vim.cmd 'Neoformat prettierd'
-        end
-      end,
-    })
+    -- vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+    --   group = augroup,
+    --   pattern = prettierd_filetypes,
+    --   callback = function()
+    --     if auto_format_enabled then
+    --       vim.cmd 'Neoformat prettierd'
+    --     end
+    --   end,
+    -- })
     vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
       group = augroup,
       pattern = prettierd_filetypes,
@@ -58,7 +58,7 @@ return {
     })
     vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
       group = augroup,
-      pattern = {'*.py'},
+      pattern = { '*.py' },
       callback = function()
         vim.keymap.set({ 'n' }, '<leader>=', function()
           vim.cmd 'Neoformat black'
