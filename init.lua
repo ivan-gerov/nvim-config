@@ -29,13 +29,12 @@ require('lazy').setup({ { import = 'plugins' }, { import = 'plugins.lsp' } }, {
     colorscheme = { 'catppuccin' },
   },
   checker = { -- automatically check for plugin updates
-    enabled = false,
-    concurrency = nil, ---@type number? set to 1 to check for updates very slowly
-    notify = true, -- get a notification when new updates are found
+    enabled = true,
+    notify = false, -- get a notification when new updates are found
     frequency = 3600, -- check for updates every hour
     check_pinned = false, -- check for pinned packages that can't be updated
   },
-  change_detection = { enabled = false },
+  change_detection = { notify = false },
   performance = {
     rtp = {
       -- disable some rtp plugins
@@ -53,6 +52,6 @@ require('lazy').setup({ { import = 'plugins' }, { import = 'plugins.lsp' } }, {
   },
 })
 
-vim.cmd 'colorscheme jellybeans-nvim'
-
+vim.cmd 'colorscheme catppuccin-mocha'
+vim.cmd [[hi TreesitterContextBottom guisp=Grey]]
 -- vim: ts=2 sts=2 sw=2 et

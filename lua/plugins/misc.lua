@@ -138,7 +138,7 @@ return {
       on_attach = function(bufnr)
         vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
         vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
-        vim.keymap.set('n', '<leader>gph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
+        vim.keymap.set('n', '<leader>gs', require('gitsigns').preview_hunk_inline, { buffer = bufnr, desc = '[P]review [H]unk' })
       end,
     },
   },
@@ -221,4 +221,60 @@ return {
     end,
   },
   { 'echasnovski/mini.ai', version = '*' },
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    opts = {
+      enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+      max_lines = 2, -- How many lines the window should span. Values <= 0 mean no limit.
+      min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+      line_numbers = true,
+      multiline_threshold = 20, -- Maximum number of lines to show for a single context
+      trim_scope = 'inner', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+      mode = 'topline', -- Line used to calculate context. Choices: 'cursor', 'topline'
+      -- Separator between context and content. Should be a single character string, like '-'.
+      -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+      separator = '-',
+      zindex = 20, -- The Z-index of the context window
+      on_attach = nil, -- (
+    },
+  },
+  { 'kyazdani42/nvim-web-devicons' },
+  {
+    'keaising/im-select.nvim',
+    config = function()
+      require('im_select').setup {
+        -- IM will be set to `default_im_select` in `normal` mode
+        -- For Windows/WSL, default: "1033", aka: English US Keyboard
+        -- For macOS, default: "com.apple.keylayout.ABC", aka: US
+        -- For Linux, default:
+        --               "keyboard-us" for Fcitx5
+        --               "1" for Fcitx
+        --               "xkb:us::eng" for ibus
+        -- You can use `im-select` or `fcitx5-remote -n` to get the IM's name
+        default_im_select = 'com.apple.keylayout.ABC',
+
+        -- Can be binary's name or binary's full path,
+        -- e.g. 'im-select' or '/usr/local/bin/im-select'
+        -- For Windows/WSL, default: "im-select.exe"
+        -- For macOS, default: "im-select"
+        -- For Linux, default: "fcitx5-remote" or "fcitx-remote" or "ibus"
+        default_command = 'im-select',
+
+        -- Restore the default input method state when the following events are triggered
+        set_default_events = { 'VimEnter', 'FocusGained', 'InsertLeave', 'CmdlineLeave' },
+
+        -- Restore the previous used input method state when the following events
+        -- are triggered, if you don't want to restore previous used im in Insert mode,
+        -- e.g. deprecated `disable_auto_restore = 1`, just let it empty
+        -- as `set_previous_events = {}`
+        set_previous_events = { 'InsertEnter' },
+
+        -- Show notification about how to install executable binary when binary missed
+        keep_quiet_on_no_binary = false,
+
+        -- Async run `default_command` to switch IM or not
+        async_switch_im = true,
+      }
+    end,
+  },
 }
