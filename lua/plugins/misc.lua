@@ -1,5 +1,4 @@
 return {
-
   { 'digitaltoad/vim-pug' },
   {
     'dstein64/nvim-scrollview',
@@ -209,7 +208,15 @@ return {
   },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  {
+    'numToStr/Comment.nvim',
+    opts = {},
+    config = function()
+      require('Comment').setup {
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      }
+    end,
+  },
   {
     'declancm/maximize.nvim',
     opts = { default_keymaps = false },
@@ -277,4 +284,5 @@ return {
       }
     end,
   },
+  { 'JoosepAlviste/nvim-ts-context-commentstring' },
 }

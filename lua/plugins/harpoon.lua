@@ -1,33 +1,15 @@
 return {
   'ThePrimeagen/harpoon',
-  enabled = false,
-  dev = true,
-  dir = '~/my/code/nvim-plugins/harpoon',
-  opts = {
-    save_on_toggle = true,
-    tabline = false,
+  dependencies = {
+    'nvim-lua/plenary.nvim',
   },
-  config = function(_, opts)
-    require('harpoon').setup(opts)
-    vim.keymap.set({ 'n' }, '<leader>m', function()
-      require('harpoon.mark').toggle_file()
-    end, { desc = 'Harpoon [m]ark' })
-    vim.keymap.set({ 'n', 'i', 'c' }, '<C-g>', function()
-      vim.cmd 'Telescope harpoon marks'
-    end, { desc = 'Harpoon [G]o to file' })
-    vim.keymap.set({ 'n' }, '<leader>n', function()
-      require('harpoon.ui').nav_next()
-    end, { desc = 'Harpoon [n]ext file' })
-    vim.keymap.set({ 'n' }, '<leader>p', function()
-      require('harpoon.ui').nav_prev()
-    end, { desc = 'Harpoon [p]revious file' })
-    vim.keymap.set({ 'n' }, '<leader>h', function()
-      require('harpoon.ui').nav_file(1)
-    end, { desc = 'Harpoon go to file 1' })
-    for i = 1, 9, 1 do
-      vim.keymap.set({ 'n' }, '<leader>' .. tostring(i), function()
-        require('harpoon.ui').nav_file(i)
-      end, { desc = 'Harpoon go to file [' .. tostring(i) .. ']' })
-    end
+  config = function()
+    -- set keymaps
+    local keymap = vim.keymap -- for conciseness
+
+    keymap.set('n', '<leader>hm', "<cmd>lua require('harpoon.mark').add_file()<cr>", { desc = 'Mark file with harpoon' })
+    keymap.set('n', '<leader>hn', "<cmd>lua require('harpoon.ui').nav_next()<cr>", { desc = 'Go to next harpoon mark' })
+    keymap.set('n', '<leader>hp', "<cmd>lua require('harpoon.ui').nav_prev()<cr>", { desc = 'Go to previous harpoon mark' })
+    keymap.set('n', '<leader>ho', "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", { desc = 'Go to previous harpoon mark' })
   end,
 }

@@ -6,7 +6,12 @@ return {
     'nvim-lua/plenary.nvim',
     -- Fuzzy Finder Algorithm which requires local dependencies to be built.
     -- Only load if `make` is available. Make sure you have the system
-    -- requirements installed.
+    {
+      'nvim-telescope/telescope-live-grep-args.nvim',
+      -- This will not install any breaking changes.
+      -- For major updates, this must be adjusted manually.
+      version = '^1.0.0',
+    }, -- requirements installed.
     {
       'nvim-telescope/telescope-fzf-native.nvim',
       -- NOTE: If you are having trouble with this installation,
@@ -40,6 +45,7 @@ return {
 
     -- Enable telescope fzf native, if installed
     pcall(require('telescope').load_extension, 'fzf')
+    pcall(require('telescope').load_extension, 'live_grep_args')
 
     pcall(require('telescope').load_extension, 'harpoon')
 
@@ -67,7 +73,12 @@ return {
     vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
     vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
     vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-    vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+    vim.keymap.set(
+      'n',
+      '<leader>sg',
+      ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>",
+      { desc = '[S]earch by [G]rep', silent = true }
+    )
     vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
   end,
 }
