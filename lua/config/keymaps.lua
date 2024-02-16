@@ -14,6 +14,14 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 -- Python command flattener
 vim.keymap.set('n', 'J', 'mzJ`z')
 
+-- Center when moving rapidly around the page
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
+
+-- Center when searching for stuff
+vim.keymap.set('n', 'n', 'nzzzv')
+vim.keymap.set('n', 'N', 'Nzzzv')
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
