@@ -22,6 +22,12 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
 
+-- Moving inside insert mode
+vim.api.nvim_set_keymap('i', '<M-h>', '<Left>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<M-j>', '<Down>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<M-k>', '<Up>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('i', '<M-l>', '<Right>', { noremap = true, silent = true })
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
