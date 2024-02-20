@@ -1,3 +1,27 @@
+local function adjust_path_for_venv_and_neoformat()
+  local venv_path = os.getenv 'VIRTUAL_ENV'
+  local black_path
+  if venv_path then
+    -- Construct the path to black within the virtual environment
+    local potential_black_path = venv_path .. '/bin/black' -- Adjust for Windows if necessary
+
+    -- Check if black exists at the constructed path
+    if vim.fn.filereadable(potential_black_path) == 1 then
+      black_path = potential_black_path
+      -- Prepend the virtual environment's bin to PATH to prioritize local packages
+      local venv_bin = venv_path .. '/bin:' -- Adjust for Windows if necessary
+      vim.env.PATH = venv_bin .. vim.env.PATH
+    end
+  end
+
+  -- Configure Neoformat to use the determined black path, or default if not found
+  vim.g.neoformat_python_black = {
+    exe = black_path or 'black', -- Use the detected black path or default to 'black'
+    args = { '--quiet', '-' },
+    stdin = 1,
+  }
+end
+
 return {
   'sbdchd/neoformat',
   config = function()
@@ -20,15 +44,6 @@ return {
 
     local augroup = vim.api.nvim_create_augroup('fmt', { clear = true })
     local prettierd_filetypes = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.css', '*.scss', '*.html' }
-    -- vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
-    --   group = augroup,
-    --   pattern = prettierd_filetypes,
-    --   callback = function()
-    --     if auto_format_enabled then
-    --       vim.cmd 'Neoformat prettierd'
-    --     end
-    --   end,
-    -- })
     vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
       group = augroup,
       pattern = prettierd_filetypes,
@@ -56,6 +71,8 @@ return {
         end, { desc = 'Neoformat', buffer = true })
       end,
     })
+
+    adjust_path_for_venv_and_neoformat()
     vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
       group = augroup,
       pattern = { '*.py' },

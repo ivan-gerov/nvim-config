@@ -42,6 +42,14 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true, desc = 'Capitalize the first character of the words in the selection' }
 )
 
+-- Current buffer filepath
+vim.keymap.set('n', '<leader>cf', function()
+  vim.api.nvim_call_function('setreg', { '+', vim.fn.expand '%:.' })
+end, { desc = 'Copy current file relpath' })
+vim.keymap.set('n', '<leader>cF', function()
+  vim.api.nvim_call_function('setreg', { '+', vim.fn.expand '%:p' })
+end, { desc = 'Copy current file full path' })
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
