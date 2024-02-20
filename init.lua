@@ -53,5 +53,6 @@ require('lazy').setup({ { import = 'plugins' }, { import = 'plugins.lsp' } }, {
 })
 
 vim.cmd 'colorscheme catppuccin-mocha'
+vim.cmd 'hi LineNr guifg=#777777'
 vim.cmd [[hi TreesitterContextBottom guisp=Grey]]
 -- vim: ts=2 sts=2 sw=2 et

@@ -62,6 +62,7 @@ return {
     'tpope/vim-fugitive',
     config = function()
       vim.keymap.set({ 'n' }, '<leader>G', '<cmd>Git | only<cr>', { silent = true, desc = 'fuGitive' })
+      vim.keymap.set({ 'n' }, '<leader>gb', '<cmd>Git blame<cr>', { silent = true, desc = 'Git blame' })
     end,
   },
   {

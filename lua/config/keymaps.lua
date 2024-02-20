@@ -28,6 +28,20 @@ vim.api.nvim_set_keymap('i', '<M-j>', '<Down>', { noremap = true, silent = true 
 vim.api.nvim_set_keymap('i', '<M-k>', '<Up>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<M-l>', '<Right>', { noremap = true, silent = true })
 
+-- Better resizing keymaps
+vim.keymap.set('n', '=', [[<cmd>vertical resize -5<cr>]], { desc = 'make the window smaller vertically' })
+vim.keymap.set('n', '-', [[<cmd>vertical resize +5<cr>]], { desc = 'make the window biger vertically' })
+vim.keymap.set('n', '+', [[<cmd>horizontal resize +2<cr>]], { desc = 'make the window bigger horizontally by pressing shift and =' })
+vim.keymap.set('n', '_', [[<cmd>horizontal resize -2<cr>]], { desc = 'make the window smaller horizontally by pressing shift and -' })
+
+-- Capitalizing the first character of words
+vim.api.nvim_set_keymap(
+  'v',
+  'gs',
+  ':s/\\v<(.)(\\w*)/\\u\\1\\L\\2/g<CR>',
+  { noremap = true, silent = true, desc = 'Capitalize the first character of the words in the selection' }
+)
+
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
