@@ -11,7 +11,22 @@ local function my_on_attach(bufnr)
   -- custom mappings
   vim.keymap.set('n', '?', api.tree.toggle_help, opts 'Help')
   vim.keymap.set('n', 'l', api.node.open.edit, opts 'Open')
-  vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts 'Open')
+  vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts 'Close')
+
+  -- Removing conflicting keymaps
+  vim.keymap.del('n', '<C-e>', { buffer = bufnr })
+  vim.keymap.del('n', '-', { buffer = bufnr })
+
+  -- Define a keymap for searching with Telescope
+  vim.keymap.set('n', '<leader>sd', function()
+    local node = api.tree.get_node_under_cursor()
+    if node then
+      local search_dir = node.type == 'directory' and node.absolute_path or vim.fn.fnamemodify(node.absolute_path, ':h')
+      require('telescope.builtin').live_grep { search_dirs = { search_dir } }
+    else
+      print 'No node under cursor.'
+    end
+  end, opts 'Search Here with Telescope', { buffer = bufnr })
 end
 
 local icons = require 'config.icons'
