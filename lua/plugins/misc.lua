@@ -40,14 +40,6 @@ return {
     end,
   },
   {
-    'iamcco/markdown-preview.nvim',
-    ft = 'markdown',
-    build = 'cd app && npm install',
-    init = function()
-      vim.g.mkdp_filetypes = { 'markdown' }
-    end,
-  },
-  {
     'glepnir/nerdicons.nvim',
     cmd = 'NerdIcons',
     config = function()
@@ -136,9 +128,10 @@ return {
         untracked = { text = '│' },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
-        vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
-        vim.keymap.set('n', '<leader>gs', require('gitsigns').preview_hunk_inline, { buffer = bufnr, desc = '[P]review [H]unk' })
+        vim.keymap.set('n', '<leader>gj', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
+        vim.keymap.set('n', '<leader>gk', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gp', require('gitsigns').preview_hunk_inline, { buffer = bufnr, desc = '[P]review [H]unk' })
+        vim.keymap.set('n', '<leader>gu', require('gitsigns').reset_hunk, { buffer = bufnr, desc = 'Undo [H]unk' })
       end,
     },
   },
