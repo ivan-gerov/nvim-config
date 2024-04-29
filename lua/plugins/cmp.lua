@@ -23,7 +23,7 @@ return {
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
       require('luasnip.loaders.from_vscode').lazy_load()
-      require('luasnip.loaders.from_vscode').lazy_load { paths = '~/.config/nvim/snippets' }
+      require('luasnip.loaders.from_vscode').lazy_load { paths = vim.g.vscode_snippets_path }
       luasnip.config.setup {}
 
       cmp.setup {

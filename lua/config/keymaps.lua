@@ -11,6 +11,13 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
+-- Diff current opened windows
+vim.keymap.set('n', '<leader>dD', ':windo diffthis <cr>')
+vim.keymap.set('n', '<leader>dQ', ':windo diffoff <cr>')
+
+-- Clear highlighting on escape in normal mode
+vim.keymap.set('n', '<esc>', '<cmd>noh<cr>', { silent = true, desc = 'Clear search highlighting' })
+
 -- Python command flattener
 vim.keymap.set('n', 'J', 'mzJ`z')
 
@@ -71,9 +78,6 @@ function ToggleQuickfix()
 end
 vim.keymap.set('n', '<leader>q', [[:lua ToggleQuickfix()<CR>]], { silent = true, desc = 'Open quickfix list' })
 
--- Symbols Outline
-vim.keymap.set('n', '<leader>so', '<cmd> :SymbolsOutline<CR>', { desc = 'Open Symbols Outline' })
-
 -- Persistence
 -- restore the session for the current directory
 vim.api.nvim_set_keymap('n', '<leader>ps', [[<cmd>lua require("persistence").load()<cr>]], { desc = 'Load last session from this folder' })
@@ -83,3 +87,8 @@ vim.api.nvim_set_keymap('n', '<leader>pl', [[<cmd>lua require("persistence").loa
 
 -- stop Persistence => session won't be saved on exit
 vim.api.nvim_set_keymap('n', '<leader>pd', [[<cmd>lua require("persistence").stop()<cr>]], { desc = 'Stop persistence for this session' })
+
+-- Tabs
+vim.keymap.set('n', '<leader>tn', '<cmd> :tabnew<CR>', { desc = 'Open a new tab' })
+vim.keymap.set('n', '<leader>th', '<cmd> :tabprevious<CR>', { desc = 'Go to previous tab' })
+vim.keymap.set('n', '<leader>tl', '<cmd> :tabnext<CR>', { desc = 'Go to next tab' })

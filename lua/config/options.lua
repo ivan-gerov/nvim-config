@@ -1,6 +1,6 @@
 -- [[ Setting options ]]
 -- Set highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch = 'guibg=guibg guifg=guifg gui=inverse'
 
 -- Make line numbers default
 vim.wo.number = true

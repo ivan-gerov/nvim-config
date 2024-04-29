@@ -72,6 +72,33 @@ return {
       end,
     })
 
+    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+      group = augroup,
+      pattern = { '*.sql' },
+      callback = function()
+        local fileName = vim.fn.expand '%:p' -- Get full path of the current file
+        local formatCommand = string.format('sql-formatter "%s" -l postgresql -o "%s"', fileName, fileName)
+
+        local function formatSql()
+          print('Formatting SQL file:', fileName)
+          vim.fn.system(formatCommand)
+          vim.cmd 'e!' -- Reload the buffer to reflect the changes
+        end
+
+        vim.keymap.set({ 'n' }, '<leader>=', formatSql, { desc = 'Neoformat', buffer = true })
+      end,
+    })
+
+    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
+      group = augroup,
+      pattern = { '*.java' },
+      callback = function()
+        vim.keymap.set({ 'n' }, '<leader>=', function()
+          vim.cmd 'Neoformat googleformat'
+        end, { desc = 'Neoformat', buffer = true })
+      end,
+    })
+
     adjust_path_for_venv_and_neoformat()
     vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
       group = augroup,

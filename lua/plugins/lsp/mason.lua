@@ -48,6 +48,8 @@ return {
         'black', -- python formatter
         'pylint', -- python linter
         'eslint_d', -- js linter
+        'google-java-format', -- java formatter
+        'sql-formatter',
       },
     }
   end,
