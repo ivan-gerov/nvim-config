@@ -320,4 +320,20 @@ return {
       keymap.set('n', 'gP', goto_preview.close_all_win, { noremap = true })
     end,
   },
+
+  {
+    'akinsho/bufferline.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    version = '*',
+    opts = {
+      options = {
+        mode = 'tabs',
+        separator_style = 'slant',
+        always_show_bufferline = false,
+        show_duplicate_prefix = false,
+        show_close_icon = false,
+        show_buffer_close_icons = false,
+      },
+    },
+  },
 }
