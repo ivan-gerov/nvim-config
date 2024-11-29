@@ -92,3 +92,44 @@ vim.api.nvim_set_keymap('n', '<leader>pd', [[<cmd>lua require("persistence").sto
 vim.keymap.set('n', '<leader>tn', '<cmd> :tabnew<CR>', { desc = 'Open a new tab' })
 vim.keymap.set('n', '<leader>th', '<cmd> :tabprevious<CR>', { desc = 'Go to previous tab' })
 vim.keymap.set('n', '<leader>tl', '<cmd> :tabnext<CR>', { desc = 'Go to next tab' })
+
+-- Diagonstics Enable/Disable
+vim.g['diagnostics_active'] = true
+function Toggle_diagnostics()
+  if vim.g.diagnostics_active then
+    vim.g.diagnostics_active = false
+    vim.diagnostic.disable()
+    print 'Diagnostics disabled'
+  else
+    vim.g.diagnostics_active = true
+    vim.diagnostic.enable()
+    print 'Diagnostics enabled'
+  end
+end
+
+vim.keymap.set('n', '<leader>xd', Toggle_diagnostics, { noremap = true, silent = true, desc = 'Toggle vim diagnostics' })
+
+-- Copilot Keymaps
+-- vim.keymap.set('n', '<leader>Cq', function()
+--   local input = vim.fn.input 'Quick Chat: '
+--   if input ~= '' then
+--     require('CopilotChat').ask(input, { selection = require('CopilotChat.select').buffer })
+--   end
+-- end, {
+--   desc = 'CopilotChat - Quick chat',
+-- })
+--
+-- vim.keymap.set('v', '<leader>Cq', function()
+--   local input = vim.fn.input 'Quick Chat about selection: '
+--   require('CopilotChat').ask(input, { selection = require('CopilotChat.select').visual })
+-- end, {
+--   desc = 'CopilotChat - Quick chat with selection',
+-- })
+--
+-- vim.keymap.set('n', '<leader>Co', function()
+--   require('CopilotChat').open()
+-- end, {
+--   desc = 'CopilotChat - Open chat window',
+-- })
+--
+--

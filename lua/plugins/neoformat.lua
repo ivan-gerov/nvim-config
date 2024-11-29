@@ -43,7 +43,7 @@ return {
     end, {})
 
     local augroup = vim.api.nvim_create_augroup('fmt', { clear = true })
-    local prettierd_filetypes = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.css', '*.scss', '*.html' }
+    local prettierd_filetypes = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.css', '*.scss', '*.html', '*.json' }
     vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWinEnter' }, {
       group = augroup,
       pattern = prettierd_filetypes,

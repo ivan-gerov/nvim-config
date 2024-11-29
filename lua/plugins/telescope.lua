@@ -61,6 +61,12 @@ return {
           },
         },
       },
+      pickers = {
+        find_files = {
+          sort_lastused = true,
+          -- theme = 'ivy',
+        },
+      },
       -- extensions = {
       --   live_grep_args = {
       --     auto_quoting = true,
@@ -89,6 +95,17 @@ return {
       require('telescope.builtin').live_grep(opts)
     end
 
+    local telescope = require 'telescope.builtin'
+    local telescope_last = 0
+    local function telescope_resume()
+      if telescope_last == 0 then
+        telescope_last = 1
+        telescope.live_grep()
+      else
+        telescope.resume()
+      end
+    end
+
     -- See `:help telescope.builtin`
     vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
     vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
@@ -106,8 +123,9 @@ return {
     vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
     vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
     vim.keymap.set('n', '<leader>sg', require('telescope').extensions.live_grep_args.live_grep_args, { desc = '[S]earch by [G]rep', silent = true })
+    vim.keymap.set('n', '<leader>sc', telescope_resume, { desc = 'Continue with last command', silent = true })
     vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-    vim.keymap.set('n', '<leader>sc', require('telescope').extensions.changed_files.changed_files, { desc = '[S]earch [C]hanged files' })
+    vim.keymap.set('n', '<leader>sC', require('telescope').extensions.changed_files.changed_files, { desc = '[S]earch [C]hanged files' })
     -- vim.keymap.set('n', '<leader>sC', live_grep_changed_files, { desc = '[S]earch in [C]hanged Files' })
   end,
 }
