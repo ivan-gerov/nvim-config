@@ -41,6 +41,8 @@ vim.keymap.set('n', '-', [[<cmd>vertical resize +5<cr>]], { desc = 'make the win
 vim.keymap.set('n', '+', [[<cmd>horizontal resize +2<cr>]], { desc = 'make the window bigger horizontally by pressing shift and =' })
 vim.keymap.set('n', '_', [[<cmd>horizontal resize -2<cr>]], { desc = 'make the window smaller horizontally by pressing shift and -' })
 
+vim.keymap.set('n', 'yc', 'yygccp', { remap = true, silent = true, desc = 'Copy the current line above and comment out this one' })
+
 -- Capitalizing the first character of words
 vim.api.nvim_set_keymap(
   'v',
@@ -56,6 +58,40 @@ end, { desc = 'Copy current file relpath' })
 vim.keymap.set('n', '<leader>cF', function()
   vim.api.nvim_call_function('setreg', { '+', vim.fn.expand '%:p' })
 end, { desc = 'Copy current file full path' })
+
+-- Copy Pytest test to clipboard (using filepath)
+vim.keymap.set('n', '<leader>cp', function()
+  local filepath = vim.fn.expand '%:.' -- Get the relative file path
+
+  -- Function to find the class and method name (reused from Django version)
+  local function get_class_and_method()
+    local class_name, method_name
+    local current_line = vim.fn.line '.'
+    for i = current_line, 1, -1 do
+      local line = vim.fn.getline(i)
+      if not method_name and line:match '^%s*def%s+([%w_]+)' then
+        method_name = line:match '^%s*def%s+([%w_]+)'
+      end
+      if not class_name and line:match '^%s*class%s+([%w_]+)' then
+        class_name = line:match '^%s*class%s+([%w_]+)'
+        break
+      end
+    end
+    return class_name, method_name
+  end
+
+  local class_name, method_name = get_class_and_method()
+
+  local pytest_path = 'python -m pytest ' .. filepath -- Using filepath here
+  if class_name then
+    pytest_path = pytest_path .. '::' .. class_name
+  end
+  if method_name then
+    pytest_path = pytest_path .. '::' .. method_name
+  end
+
+  vim.api.nvim_call_function('setreg', { '+', pytest_path }) -- Copy to clipboard
+end, { desc = 'Copy current Pytest test path into clipboard' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })

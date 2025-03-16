@@ -28,7 +28,7 @@ return {
       { 'nvim-lua/plenary.nvim' }, -- for curl, log wrapper
     },
     opts = {
-      model = 'gpt-4',
+      model = 'gpt-4o',
       question_header = '## User ',
       answer_header = '## Copilot ',
       error_header = '## Error ',

@@ -54,7 +54,7 @@ return {
   -- Optional dependency
   dependencies = { 'hrsh7th/nvim-cmp' },
   config = function()
-    require('nvim-autopairs').setup {}
+    require('nvim-autopairs').setup { map_cr = false }
     add_spaces_between_paren()
 
     -- If you want to automatically add `(` after selecting a function or method
