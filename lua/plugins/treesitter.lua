@@ -35,13 +35,6 @@ return {
               node_decremental = '<C-r>',
             },
           },
-          autotag = {
-            enable = true,
-            enable_rename = true,
-            enable_close = true,
-            enable_close_on_slash = true,
-            filetypes = { 'html', 'javascript', 'typescript', 'markdown', 'javascriptreact', 'typescriptreact', 'xml' },
-          },
           textobjects = {
             lsp_interop = {
               enable = true,
@@ -62,10 +55,12 @@ return {
     dependencies = 'nvim-treesitter/nvim-treesitter',
     config = function()
       require('nvim-ts-autotag').setup {
-        enable_rename = true,
-        enable_close = true,
-        enable_close_on_slash = true,
-        filetypes = { 'html', 'javascript', 'typescript', 'markdown', 'javascriptreact', 'typescriptreact', 'xml' },
+        opts = {
+          enable_close = true, -- Auto close tags
+          enable_rename = true, -- Auto rename pairs of tags
+          enable_close_on_slash = false,
+          filetypes = { 'html', 'javascript', 'typescript', 'markdown', 'javascriptreact', 'typescriptreact', 'xml' },
+        },
       }
     end,
     lazy = true,

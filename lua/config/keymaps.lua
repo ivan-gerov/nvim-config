@@ -59,6 +59,40 @@ vim.keymap.set('n', '<leader>cF', function()
   vim.api.nvim_call_function('setreg', { '+', vim.fn.expand '%:p' })
 end, { desc = 'Copy current file full path' })
 
+-- Copy Django test to clipboard
+vim.keymap.set('n', '<leader>ct', function()
+  local filepath = vim.fn.expand '%:.' -- Get the relative file path
+  local module_path = filepath:gsub('/', '.'):gsub('%.py$', '') -- Replace '/' with '.' and remove '.py'
+
+  -- Function to find the class and method name
+  local function get_class_and_method()
+    local class_name, method_name
+    local current_line = vim.fn.line '.'
+    for i = current_line, 1, -1 do
+      local line = vim.fn.getline(i)
+      if not method_name and line:match '^%s*def%s+([%w_]+)' then
+        method_name = line:match '^%s*def%s+([%w_]+)'
+      end
+      if not class_name and line:match '^%s*class%s+([%w_]+)' then
+        class_name = line:match '^%s*class%s+([%w_]+)'
+        break
+      end
+    end
+    return class_name, method_name
+  end
+
+  local class_name, method_name = get_class_and_method()
+  local full_path = module_path
+  if class_name then
+    full_path = full_path .. '.' .. class_name
+  end
+  if method_name then
+    full_path = full_path .. '.' .. method_name
+  end
+
+  vim.api.nvim_call_function('setreg', { '+', full_path }) -- Copy to clipboard
+end, { desc = 'Copy current Django test file path in package.module.Class.method format' })
+
 -- Copy Pytest test to clipboard (using filepath)
 vim.keymap.set('n', '<leader>cp', function()
   local filepath = vim.fn.expand '%:.' -- Get the relative file path
@@ -144,28 +178,3 @@ function Toggle_diagnostics()
 end
 
 vim.keymap.set('n', '<leader>xd', Toggle_diagnostics, { noremap = true, silent = true, desc = 'Toggle vim diagnostics' })
-
--- Copilot Keymaps
--- vim.keymap.set('n', '<leader>Cq', function()
---   local input = vim.fn.input 'Quick Chat: '
---   if input ~= '' then
---     require('CopilotChat').ask(input, { selection = require('CopilotChat.select').buffer })
---   end
--- end, {
---   desc = 'CopilotChat - Quick chat',
--- })
---
--- vim.keymap.set('v', '<leader>Cq', function()
---   local input = vim.fn.input 'Quick Chat about selection: '
---   require('CopilotChat').ask(input, { selection = require('CopilotChat.select').visual })
--- end, {
---   desc = 'CopilotChat - Quick chat with selection',
--- })
---
--- vim.keymap.set('n', '<leader>Co', function()
---   require('CopilotChat').open()
--- end, {
---   desc = 'CopilotChat - Open chat window',
--- })
---
---

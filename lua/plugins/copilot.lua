@@ -22,7 +22,7 @@ return {
   { 'github/copilot.vim' },
   {
     'CopilotC-Nvim/CopilotChat.nvim',
-    branch = 'canary',
+    branch = 'main',
     dependencies = {
       { 'github/copilot.vim' },
       { 'nvim-lua/plenary.nvim' }, -- for curl, log wrapper
@@ -69,11 +69,11 @@ return {
           normal = 'gmd',
         },
         -- Show the prompt
-        show_system_prompt = {
+        show_info = {
           normal = 'gmp',
         },
         -- Show the user selection
-        show_user_selection = {
+        show_context = {
           normal = 'gms',
         },
       },
@@ -99,7 +99,7 @@ return {
 
       chat.setup(opts)
       -- Setup the CMP integration
-      require('CopilotChat.integrations.cmp').setup()
+      -- require('CopilotChat.integrations.cmp').setup()
 
       vim.api.nvim_create_user_command('CopilotChatVisual', function(args)
         chat.ask(args.args, { selection = select.visual })
@@ -132,20 +132,6 @@ return {
           vim.opt_local.number = true
         end,
       })
-
-      -- Add which-key mappings
-      local wk = require 'which-key'
-      wk.register {
-        g = {
-          m = {
-            name = '+Copilot Chat',
-            d = 'Show diff',
-            p = 'System prompt',
-            s = 'Show selection',
-            y = 'Yank diff',
-          },
-        },
-      }
     end,
     event = 'VeryLazy',
     keys = {

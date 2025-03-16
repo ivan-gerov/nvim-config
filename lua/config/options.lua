@@ -1,6 +1,6 @@
 -- [[ Setting options ]]
 -- Set highlight on search
-vim.o.hlsearch = 'guibg=guibg guifg=guifg gui=inverse'
+-- vim.o.hlsearch = 'guibg=guibg guifg=guifg gui=inverse'
 
 -- Make line numbers default
 vim.wo.number = true
@@ -12,6 +12,7 @@ vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
+--  Install xclip for Arch
 vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent

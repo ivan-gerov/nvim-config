@@ -211,16 +211,6 @@ return {
       }
     end,
   },
-  {
-    'declancm/maximize.nvim',
-    opts = { default_keymaps = false },
-    config = function(_, opts)
-      require('maximize').setup(opts)
-      vim.keymap.set('n', '<leader>o', function()
-        require('maximize').toggle()
-      end, { desc = 'make [O]nly window' })
-    end,
-  },
   { 'echasnovski/mini.ai', version = '*' },
   {
     'nvim-treesitter/nvim-treesitter-context',
@@ -234,7 +224,7 @@ return {
       mode = 'topline', -- Line used to calculate context. Choices: 'cursor', 'topline'
       -- Separator between context and content. Should be a single character string, like '-'.
       -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-      separator = '-',
+      -- separator = '-',
       zindex = 20, -- The Z-index of the context window
       on_attach = nil, -- (
     },
@@ -243,6 +233,17 @@ return {
   {
     'keaising/im-select.nvim',
     config = function()
+      local is_macos = vim.fn.has 'macunix' == 1
+      local is_linux = vim.fn.has 'unix' == 1 and not is_macos
+
+      local default_im_select = 'com.apple.keylayout.ABC'
+      local default_command = 'im-select'
+
+      if is_linux then
+        default_im_select = 'keyboard-us'
+        default_command = 'fcitx5-remote'
+      end
+
       require('im_select').setup {
         -- IM will be set to `default_im_select` in `normal` mode
         -- For Windows/WSL, default: "1033", aka: English US Keyboard
@@ -252,14 +253,14 @@ return {
         --               "1" for Fcitx
         --               "xkb:us::eng" for ibus
         -- You can use `im-select` or `fcitx5-remote -n` to get the IM's name
-        default_im_select = 'com.apple.keylayout.ABC',
+        default_im_select = default_im_select,
 
         -- Can be binary's name or binary's full path,
         -- e.g. 'im-select' or '/usr/local/bin/im-select'
         -- For Windows/WSL, default: "im-select.exe"
         -- For macOS, default: "im-select"
         -- For Linux, default: "fcitx5-remote" or "fcitx-remote" or "ibus"
-        default_command = 'im-select',
+        default_command = default_command,
 
         -- Restore the default input method state when the following events are triggered
         set_default_events = { 'VimEnter', 'FocusGained', 'InsertLeave', 'CmdlineLeave' },
@@ -320,7 +321,6 @@ return {
       keymap.set('n', 'gP', goto_preview.close_all_win, { noremap = true })
     end,
   },
-
   {
     'akinsho/bufferline.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -358,6 +358,7 @@ return {
       { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
     },
   },
+  { 'echasnovski/mini.icons' },
 
   -- {
   --   'nvim-focus/focus.nvim',
