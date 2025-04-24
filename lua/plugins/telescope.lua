@@ -126,6 +126,6 @@ return {
     vim.keymap.set('n', '<leader>sc', telescope_resume, { desc = 'Continue with last command', silent = true })
     vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
     vim.keymap.set('n', '<leader>sC', require('telescope').extensions.changed_files.changed_files, { desc = '[S]earch [C]hanged files' })
-    -- vim.keymap.set('n', '<leader>sC', live_grep_changed_files, { desc = '[S]earch in [C]hanged Files' })
+    vim.keymap.set('n', '<leader>sm', require('telescope.builtin').marks, { desc = '[S]earch [M]arks' })
   end,
 }

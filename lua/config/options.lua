@@ -1,5 +1,5 @@
 -- [[ Setting options ]]
--- Set highlight on search
+-- Set highlight on search - DON'T UNCOMMENT, breaks
 -- vim.o.hlsearch = 'guibg=guibg guifg=guifg gui=inverse'
 
 -- Make line numbers default

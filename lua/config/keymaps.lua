@@ -29,6 +29,19 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', 'n', 'nzzzv')
 vim.keymap.set('n', 'N', 'Nzzzv')
 
+-- Window management with leader
+vim.keymap.set('n', '<leader>wh', '<C-w>h', { desc = 'Move to left window' })
+vim.keymap.set('n', '<leader>wj', '<C-w>j', { desc = 'Move to bottom window' })
+vim.keymap.set('n', '<leader>wk', '<C-w>k', { desc = 'Move to top window' })
+vim.keymap.set('n', '<leader>wl', '<C-w>l', { desc = 'Move to right window' })
+vim.keymap.set('n', '<leader>wH', '<C-w>H', { desc = 'Move window to left' })
+vim.keymap.set('n', '<leader>wJ', '<C-w>J', { desc = 'Move window to bottom' })
+vim.keymap.set('n', '<leader>wK', '<C-w>K', { desc = 'Move window to top' })
+vim.keymap.set('n', '<leader>wL', '<C-w>L', { desc = 'Move window to right' })
+vim.keymap.set('n', '<leader>wq', '<C-w>q', { desc = 'Close current window' })
+vim.keymap.set('n', '<leader>ws', '<C-w>s', { desc = 'Open vertical split' })
+vim.keymap.set('n', '<leader>wv', '<C-w>v', { desc = 'Open horizontal split' })
+
 -- Moving inside insert mode
 vim.api.nvim_set_keymap('i', '<M-h>', '<Left>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<M-j>', '<Down>', { noremap = true, silent = true })
@@ -36,10 +49,10 @@ vim.api.nvim_set_keymap('i', '<M-k>', '<Up>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('i', '<M-l>', '<Right>', { noremap = true, silent = true })
 
 -- Better resizing keymaps
-vim.keymap.set('n', '=', [[<cmd>vertical resize -5<cr>]], { desc = 'make the window smaller vertically' })
-vim.keymap.set('n', '-', [[<cmd>vertical resize +5<cr>]], { desc = 'make the window biger vertically' })
-vim.keymap.set('n', '+', [[<cmd>horizontal resize +2<cr>]], { desc = 'make the window bigger horizontally by pressing shift and =' })
+vim.keymap.set('n', '-', [[<cmd>vertical resize -5<cr>]], { desc = 'make the window smaller vertically' })
+vim.keymap.set('n', '=', [[<cmd>vertical resize +5<cr>]], { desc = 'make the window biger vertically' })
 vim.keymap.set('n', '_', [[<cmd>horizontal resize -2<cr>]], { desc = 'make the window smaller horizontally by pressing shift and -' })
+vim.keymap.set('n', '+', [[<cmd>horizontal resize +2<cr>]], { desc = 'make the window bigger horizontally by pressing shift and =' })
 
 vim.keymap.set('n', 'yc', 'yygccp', { remap = true, silent = true, desc = 'Copy the current line above and comment out this one' })
 
@@ -162,6 +175,43 @@ vim.api.nvim_set_keymap('n', '<leader>pd', [[<cmd>lua require("persistence").sto
 vim.keymap.set('n', '<leader>tn', '<cmd> :tabnew<CR>', { desc = 'Open a new tab' })
 vim.keymap.set('n', '<leader>th', '<cmd> :tabprevious<CR>', { desc = 'Go to previous tab' })
 vim.keymap.set('n', '<leader>tl', '<cmd> :tabnext<CR>', { desc = 'Go to next tab' })
+
+-- Close tab with confirmation
+local function close_tab_with_confirmation()
+  local current_tab = vim.fn.tabpagenr()
+  local total_windows = vim.fn.winnr '$'
+
+  -- If there's only one window in the tab, just close the tab.
+  if total_windows == 1 then
+    vim.cmd 'tabclose'
+    return
+  end
+
+  -- If there are multiple windows, ask for confirmation.
+  local choice = vim.fn.confirm(
+    'Close tab and all its windows?',
+    '&Yes\n&No', -- Choices: Yes or No
+    2 -- Default choice (No)
+  )
+
+  -- If the user chooses 'Yes' (choice is 1), close the tab.
+  if choice == 1 then
+    vim.cmd 'tabclose'
+  end
+  -- If the user chooses 'No' (choice is 2) or cancels, do nothing.
+end
+
+-- Set up the keymap (e.g., <leader>x)
+vim.keymap.set('n', '<leader>tq', close_tab_with_confirmation, { desc = 'Close tab with confirmation' })
+
+-- Open buffer in new tab
+local function open_buffer_in_new_tab()
+  local current_buffer = vim.fn.bufnr '%'
+  vim.cmd 'tabnew'
+  vim.cmd('b ' .. current_buffer)
+end
+
+vim.keymap.set('n', '<leader>ot', open_buffer_in_new_tab, { desc = 'Open buffer in new tab' })
 
 -- Diagonstics Enable/Disable
 vim.g['diagnostics_active'] = true
